@@ -8,7 +8,7 @@ const Stack = createStackNavigator();
 function MainNavigation() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator headerMode={false}>
         <Stack.Screen name="plants" component={MyPlantsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
