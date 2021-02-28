@@ -1,16 +1,37 @@
 import * as React from "react";
+import { Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Entypo } from "@expo/vector-icons";
 import MyPlantsScreen from "../screens/MyPlantsScreen";
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 function MainNavigation() {
   return (
     <NavigationContainer>
-      <Stack.Navigator headerMode={false}>
-        <Stack.Screen name="plants" component={MyPlantsScreen} />
-      </Stack.Navigator>
+      <Tab.Navigator initialRouteName="Plants">
+        <Tab.Screen
+          options={{
+            tabBarLabel: ({ focused }) => (
+              <Text
+                style={{ fontSize: 10, color: focused ? "#10C5AB" : "black" }}
+              >
+                My Plants
+              </Text>
+            ),
+            tabBarIcon: ({ size, focused }) => (
+              <Entypo
+                name={"leaf"}
+                size={size}
+                color={focused ? "#10C5AB" : "black"}
+              />
+            ),
+          }}
+          name="Plants"
+          component={MyPlantsScreen}
+        />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }

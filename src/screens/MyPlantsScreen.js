@@ -69,13 +69,10 @@ const styles = StyleSheet.create({
   myPlantsScreen: {
     flex: 1,
   },
-  plantsListContainer: {
-    // paddingBottom: 10,
-    flex: 1,
-  },
+  plantsListContainer: {},
   plantsList: {
     paddingHorizontal: width * 0.03,
-    paddingVertical: width * 0.1,
+    paddingVertical: width * 0.08,
   },
   plantsItemContainer: {},
   plantsItemTitle: {
