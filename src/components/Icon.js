@@ -1,5 +1,5 @@
 import React from "react";
-import { Entypo, Ionicons } from "@expo/vector-icons";
+import { Entypo, Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 const Icon = ({ size, name, color, pack, onPress, style }) => {
   const packages = {
@@ -14,6 +14,15 @@ const Icon = ({ size, name, color, pack, onPress, style }) => {
     ),
     ionIcons: (
       <Ionicons
+        style={style}
+        onPress={onPress}
+        size={size}
+        name={name}
+        color={color}
+      />
+    ),
+    material: (
+      <MaterialIcons
         style={style}
         onPress={onPress}
         size={size}
