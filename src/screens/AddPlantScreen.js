@@ -1,11 +1,13 @@
 import React from "react";
 
-import { Text, StyleSheet } from "react-native";
+import { Text, View } from "react-native";
 
 const AddPlantScreen = () => {
-  return <Text>Add Plant Screen</Text>;
+  return (
+    <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
+      <Text>Add</Text>
+    </View>
+  );
 };
-
-const styles = StyleSheet.create({});
 
 export default AddPlantScreen;

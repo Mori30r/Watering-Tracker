@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 
-import { View, StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions, View } from "react-native";
 import TabBarItem from "./TabBarItem";
 
 const TabBar = ({ state, navigation }) => {
   const handleChangeScreen = (activeTab, index) => {
     if (state.index !== index) {
-      setSelected(activeTab);
-      navigation.navigate(activeTab);
+      if (index === 1) {
+        navigation.navigate("Camera");
+      } else {
+        navigation.navigate(activeTab);
+        setSelected(activeTab);
+      }
     }
   };
 
@@ -36,10 +40,9 @@ const { height } = Dimensions.get("screen");
 
 const styles = StyleSheet.create({
   tabBar: {
-    height: height * 0.07,
     flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
+    height: height * 0.07,
+    backgroundColor: "white",
   },
 });
 

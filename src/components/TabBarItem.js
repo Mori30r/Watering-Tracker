@@ -1,22 +1,25 @@
 import React from "react";
-import { StyleSheet, View, TouchableHighlight, Dimensions } from "react-native";
+import { StyleSheet, TouchableHighlight, Dimensions, View } from "react-native";
 import Icon from "./Icon";
+import AddButton from "./AddButton";
 
 const TabBarItem = (props) => {
+  if (props.tab.name === "Add") {
+    return <AddButton {...props} />;
+  }
   return (
     <View style={styles.tabBarItemContainer}>
       <TouchableHighlight
         style={styles.tabContainer}
-        underlayColor={"white"}
+        underlayColor={"transparent"}
         onPress={props.onPress}
       >
         <Icon
           pack={"ionIcons"}
-          style={props.tab.name === "Add" && styles.middleButton}
           onPress={props.onPress}
           color={props.color}
           name={props.icon}
-          size={props.tab.name === "Add" ? 60 : 25}
+          size={25}
         />
       </TouchableHighlight>
     </View>
@@ -32,14 +35,6 @@ const styles = StyleSheet.create({
     height: height * 0.07,
     justifyContent: "center",
     alignItems: "center",
-  },
-  middleButton: {
-    position: "absolute",
-    bottom: 10,
-    backgroundColor: "white",
-    borderRadius: 100,
-    padding: 5,
-    paddingRight: 0,
   },
 });
 
