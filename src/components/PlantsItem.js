@@ -10,7 +10,6 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 
 const PlantsItem = (props) => {
-  console.log(props);
   const { title, imageURL, nextWateringTime } = props.plant.item;
   const timeToDay = (time) => {
     return time % 24;
