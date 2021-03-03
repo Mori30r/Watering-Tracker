@@ -7,16 +7,26 @@ import AddPlantScreen from "../screens/AddPlantScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import TabBar from "../components/TabBar";
 import CameraScreen from "../screens/CameraScreen";
+import DetailPlantScreen from "../screens/DetailPlantScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+
+const HomeAndDetail = () => {
+  return (
+    <Stack.Navigator headerMode={false}>
+      <Stack.Screen name={"Plants"} component={MyPlantsScreen} />
+      <Stack.Screen name={"Detail"} component={DetailPlantScreen} />
+    </Stack.Navigator>
+  );
+};
 
 const HomeTab = () => {
   return (
     <Tab.Navigator tabBar={(props) => <TabBar {...props} />}>
       <Tab.Screen
         name="Plants"
-        component={MyPlantsScreen}
+        component={HomeAndDetail}
         initialParams={{ icon: "leaf" }}
       />
       <Tab.Screen
@@ -32,6 +42,7 @@ const HomeTab = () => {
     </Tab.Navigator>
   );
 };
+
 const MainNavigation = () => {
   return (
     <NavigationContainer>
