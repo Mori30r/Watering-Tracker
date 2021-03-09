@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Text,
   View,
@@ -6,22 +6,38 @@ import {
   ImageBackground,
   Dimensions,
   TouchableWithoutFeedback,
+  Animated,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 const PlantsItem = (props) => {
   const { title, imageURL, nextWateringTime } = props.plant.item;
+  const { animatedValue, index } = props;
   const timeToDay = (time) => {
     return time % 24;
   };
-
+  const inputRange = [
+    -1,
+    0,
+    height * 0.25 * index,
+    height * 0.25 * (index + 2),
+  ];
+  const scale = animatedValue.interpolate({
+    inputRange,
+    outputRange: [1, 1, 1, 0.5],
+  });
   return (
     <TouchableWithoutFeedback
       onPress={() =>
         props.navigation.navigate("Detail", { plant: props.plant.item })
       }
     >
-      <View style={styles.plantsItemContainer}>
+      <Animated.View
+        style={[
+          styles.plantsItemContainer,
+          { opacity: scale, transform: [{ scale }] },
+        ]}
+      >
         <Text style={styles.plantsItemTitle}>{title}</Text>
         <View style={styles.plantsItemCard}>
           <ImageBackground
@@ -43,7 +59,7 @@ const PlantsItem = (props) => {
             </View>
           </ImageBackground>
         </View>
-      </View>
+      </Animated.View>
     </TouchableWithoutFeedback>
   );
 };
