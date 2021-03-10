@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import Colors from "../constants/Colors";
 import { StyleSheet, Dimensions, View } from "react-native";
 import TabBarItem from "./TabBarItem";
 
@@ -16,7 +16,7 @@ const TabBar = ({ state, navigation }) => {
   };
 
   const renderColorOfItem = (screenName) => {
-    return screenName === selected ? "#10c5ab" : "black";
+    return screenName === selected ? Colors.accentColor : "black";
   };
 
   const [selected, setSelected] = useState("Plants");
