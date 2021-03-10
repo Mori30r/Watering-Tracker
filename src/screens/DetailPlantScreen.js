@@ -50,19 +50,51 @@ const DetailPlantScreen = (props) => {
       })
     ).current;
   };
-  const inputRange = [height * 0.1, height];
+  const bottomDrawerInputRange = [height * 0.1, height];
+  const bottomWateringInfoInputRange = [-height, -height + height / 2.1, 0];
+  const bottomHeadInputRange = [-height, -height + height - height / 8, 0];
+  const bottomPlantsInfoInputRange = [-height, -height + height / 2, 0];
   const scrollYChartInterpolate = scrollYChart.interpolate({
-    inputRange,
+    inputRange: bottomDrawerInputRange,
     outputRange: [height * 0.5, height * 0.9],
   });
   const scrollYDetailInterpolate = scrollYDetail.interpolate({
-    inputRange,
+    inputRange: bottomDrawerInputRange,
     outputRange: [height * 0.6, height * 0.9],
   });
+  const scrollYDetailHeadLeftInterpolate = scrollYDetail.interpolate({
+    inputRange: bottomHeadInputRange,
+    outputRange: [0, -height / 16, 0],
+    extrapolate: "clamp",
+  });
   const imageHeightInterpolate = scrollYChart.interpolate({
-    inputRange,
+    inputRange: bottomDrawerInputRange,
     outputRange: [height * 0.7, height * 0.8],
   });
+  const scrollYDetailWateringInfoOpacityInterpolate = scrollYDetail.interpolate(
+    {
+      inputRange: bottomWateringInfoInputRange,
+      outputRange: [1.5, 0, 0],
+    }
+  );
+  const scrollYDetailPlantsInfoOpacityInterpolate = scrollYDetail.interpolate({
+    inputRange: bottomPlantsInfoInputRange,
+    outputRange: [1, 0, 0],
+  });
+  const scrollYDetailWateringInfoTransformInterpolate = scrollYDetail.interpolate(
+    {
+      inputRange: bottomWateringInfoInputRange,
+      outputRange: [0, -height / 16, -height / 6],
+      extrapolate: "clamp",
+    }
+  );
+  const scrollYDetailPlantsInfoTransformInterpolate = scrollYDetail.interpolate(
+    {
+      inputRange: bottomPlantsInfoInputRange,
+      outputRange: [0, -height / 6, -height / 2.5],
+      extrapolate: "clamp",
+    }
+  );
   return (
     <View style={styles.detailPlant}>
       <Animated.Image
@@ -95,13 +127,18 @@ const DetailPlantScreen = (props) => {
           ]}
         >
           <View style={styles.bigDetailHead}>
-            <View style={styles.bigDetailHeadLeft}>
+            <Animated.View
+              style={[
+                styles.bigDetailHeadLeft,
+                { bottom: scrollYDetailHeadLeftInterpolate },
+              ]}
+            >
               <Text style={styles.text}>Next Watering in</Text>
               <Text style={styles.bigBoldText}>
                 {nextWateringTime % 24} days
               </Text>
               <Text style={styles.lightText}>watering every 7 days</Text>
-            </View>
+            </Animated.View>
             <View style={styles.bigDetailHeadRight}>
               <View style={styles.bigDetailHeadRightIconContainer}>
                 <Icon
@@ -114,17 +151,42 @@ const DetailPlantScreen = (props) => {
               </View>
             </View>
           </View>
-          <View style={styles.wateringInfoContainer}>
-            <Text style={[styles.smallBoldText, { paddingBottom: 10 }]}>
+          <Animated.View
+            style={[
+              styles.wateringInfoContainer,
+              {
+                opacity: scrollYDetailWateringInfoOpacityInterpolate,
+                bottom: scrollYDetailWateringInfoTransformInterpolate,
+              },
+            ]}
+          >
+            <Text
+              style={[
+                styles.smallBoldText,
+                {
+                  paddingBottom: 10,
+                },
+              ]}
+            >
               Watering Info
             </Text>
             <Text style={styles.normalText}>
               Soooo This Should be a dummy text in development but i'm too lazy
               to search for dummy text.
             </Text>
-          </View>
-          <View style={styles.plantsInfoContainer}>
-            <Text style={styles.smallBoldText}>Plants Info</Text>
+          </Animated.View>
+          <Animated.View
+            style={[
+              styles.plantsInfoContainer,
+              {
+                opacity: scrollYDetailPlantsInfoOpacityInterpolate,
+                bottom: scrollYDetailPlantsInfoTransformInterpolate,
+              },
+            ]}
+          >
+            <Animated.Text style={styles.smallBoldText}>
+              Plants Info
+            </Animated.Text>
             <View style={styles.plantsInfoLabels}>
               <Text style={styles.lightText}>Info 1</Text>
               <Text style={styles.lightText}>Info 2</Text>
@@ -151,7 +213,7 @@ const DetailPlantScreen = (props) => {
                 <Text style={styles.smallBoldText}>10</Text>
               </View>
             </View>
-          </View>
+          </Animated.View>
         </Animated.View>
       </View>
     </View>
@@ -179,15 +241,15 @@ const styles = StyleSheet.create({
   bottomDetailChart: {
     backgroundColor: "#201050",
     opacity: 0.9,
-    borderTopStartRadius: 30,
-    borderTopEndRadius: 30,
+    borderTopStartRadius: 10,
+    borderTopEndRadius: 10,
     height: "100%",
   },
   bottomDetailWatering: {
     height: "90%",
     backgroundColor: "white",
-    borderTopStartRadius: 30,
-    borderTopEndRadius: 30,
+    borderTopStartRadius: 10,
+    borderTopEndRadius: 10,
     position: "absolute",
     left: 0,
     right: 0,
