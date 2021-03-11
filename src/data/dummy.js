@@ -1,37 +1,39 @@
+import faker from "faker";
+
 export const PLANTS = [
   {
-    title: "Number 1",
-    imageURL: "https://picsum.photos/1000/500",
+    title: faker.commerce.productName(),
+    imageURL: faker.image.animals(),
     nextWateringTime: 32,
   },
   {
-    title: "Number 2",
-    imageURL: "https://picsum.photos/1000/500",
+    title: faker.commerce.productName(),
+    imageURL: faker.image.cats(),
     nextWateringTime: 150,
   },
   {
-    title: "Number 3",
-    imageURL: "https://picsum.photos/1000/500",
+    title: faker.commerce.productName(),
+    imageURL: faker.image.fashion(),
     nextWateringTime: 12,
   },
   {
-    title: "Number 4",
-    imageURL: "https://picsum.photos/1000/500",
+    title: faker.commerce.productName(),
+    imageURL: faker.image.city(),
     nextWateringTime: 56,
   },
   {
-    title: "Number 5",
-    imageURL: "https://picsum.photos/1000/500",
+    title: faker.commerce.productName(),
+    imageURL: faker.image.technics(),
     nextWateringTime: 71,
   },
   {
-    title: "Number 6",
-    imageURL: "https://picsum.photos/1000/500",
+    title: faker.commerce.productName(),
+    imageURL: faker.image.food(),
     nextWateringTime: 24,
   },
   {
-    title: "Number 7",
-    imageURL: "https://picsum.photos/1000/500",
+    title: faker.commerce.productName(),
+    imageURL: faker.image.nightlife(),
     nextWateringTime: 48,
   },
 ];
