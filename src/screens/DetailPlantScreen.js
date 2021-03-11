@@ -7,11 +7,14 @@ import {
   Animated,
   PanResponder,
   Text,
+  FlatList,
 } from "react-native";
 import Icon from "../components/Icon";
 import Colors from "../constants/Colors";
-
-const { height } = Dimensions.get("screen");
+import { PLANTS } from "../data/dummy";
+import PlantsImage from "../components/PlantsImage";
+import { LineChart } from "react-native-chart-kit";
+const { width, height } = Dimensions.get("screen");
 const CHART_ANIMATE_TO = -height;
 const BOTTOM_HEIGHT = height * 0.78;
 const IMAGE_HEIGHT = height * 0.7;
@@ -56,7 +59,7 @@ const DetailPlantScreen = (props) => {
   const bottomPlantsInfoInputRange = [-height, -height + height / 2, 0];
   const scrollYChartInterpolate = scrollYChart.interpolate({
     inputRange: bottomDrawerInputRange,
-    outputRange: [height * 0.5, height * 0.9],
+    outputRange: [height * 0.41, height * 0.68],
   });
   const scrollYDetailInterpolate = scrollYDetail.interpolate({
     inputRange: bottomDrawerInputRange,
@@ -118,7 +121,71 @@ const DetailPlantScreen = (props) => {
         <Animated.View
           {...panResponder("chart").panHandlers}
           style={[styles.bottomDetailChart, { top: scrollYChartInterpolate }]}
-        />
+        >
+          <View style={styles.plantsListContainer}>
+            <Text style={[styles.smallBoldText, { color: "white" }]}>
+              Plants Ready for Watering
+            </Text>
+            <View style={styles.plantsList}>
+              <FlatList
+                keyExtractor={(item, index) => index.toString()}
+                data={PLANTS}
+                renderItem={(item) => <PlantsImage uri={item.item.imageURL} />}
+                horizontal
+              />
+              <View style={styles.chartContainer}>
+                <Text style={[styles.smallBoldText, { color: "white" }]}>
+                  Weekly WorkLoad
+                </Text>
+                <View style={styles.chart}>
+                  <LineChart
+                    withDots={true}
+                    withInnerLines={false}
+                    withVerticalLines={false}
+                    withHorizontalLines={false}
+                    data={{
+                      labels: ["Sat", "Sun", "Mon", "Tue", "Wen", "Thu", "Fri"],
+                      datasets: [
+                        {
+                          data: [
+                            Math.random() * 100,
+                            Math.random() * 100,
+                            Math.random() * 100,
+                            Math.random() * 100,
+                            Math.random() * 100,
+                            Math.random() * 100,
+                            Math.random() * 100,
+                          ],
+                        },
+                      ],
+                    }}
+                    width={width}
+                    height={200}
+                    yAxisInterval={7}
+                    chartConfig={{
+                      backgroundGradientToOpacity: 0,
+                      backgroundGradientFromOpacity: 0,
+                      decimalPlaces: 0,
+                      fillShadowGradient: Colors.accentColor,
+                      fillShadowGradientOpacity: 0.7,
+                      color: () => Colors.accentColor,
+                      labelColor: () => "rgba(255, 255, 255, .8)",
+                      propsForDots: {
+                        r: "5",
+                        strokeWidth: "2",
+                        stroke: Colors.accentColor,
+                      },
+                    }}
+                    bezier
+                    style={{
+                      marginTop: 20,
+                    }}
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
+        </Animated.View>
         <Animated.View
           {...panResponder("detail").panHandlers}
           style={[
@@ -239,7 +306,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   bottomDetailChart: {
-    backgroundColor: "#201050",
+    backgroundColor: "#001510",
     opacity: 0.9,
     borderTopStartRadius: 10,
     borderTopEndRadius: 10,
@@ -316,6 +383,15 @@ const styles = StyleSheet.create({
   plantsInfoDetailItemsRight: {
     borderBottomEndRadius: 10,
     borderTopEndRadius: 10,
+  },
+  plantsListContainer: {
+    paddingTop: 30,
+    paddingLeft: 10,
+  },
+  chartContainer: {},
+  chart: {
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
