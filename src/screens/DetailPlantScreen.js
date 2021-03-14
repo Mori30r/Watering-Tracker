@@ -59,7 +59,7 @@ const DetailPlantScreen = (props) => {
   const bottomPlantsInfoInputRange = [-height, -height + height / 2, 0];
   const scrollYChartInterpolate = scrollYChart.interpolate({
     inputRange: bottomDrawerInputRange,
-    outputRange: [height * 0.41, height * 0.68],
+    outputRange: [height * 0.39, height * 0.68],
   });
   const scrollYDetailInterpolate = scrollYDetail.interpolate({
     inputRange: bottomDrawerInputRange,
@@ -98,6 +98,18 @@ const DetailPlantScreen = (props) => {
       extrapolate: "clamp",
     }
   );
+  const scrollYChartOpacityInterpolate = scrollYChart.interpolate({
+    inputRange: [-height, height * 0.2],
+    outputRange: [1, -1],
+  });
+  const scrollYChartTransformInterpolate = scrollYChart.interpolate({
+    inputRange: [-height, height * 0.2],
+    outputRange: [0, -height * 0.2],
+  });
+  const scrollYChartScaleInterpolate = scrollYChart.interpolate({
+    inputRange: [-height, height * 0.2],
+    outputRange: [1, 0.5],
+  });
   return (
     <View style={styles.detailPlant}>
       <Animated.Image
@@ -122,10 +134,10 @@ const DetailPlantScreen = (props) => {
           {...panResponder("chart").panHandlers}
           style={[styles.bottomDetailChart, { top: scrollYChartInterpolate }]}
         >
-          <View style={styles.plantsListContainer}>
-            <Text style={[styles.smallBoldText, { color: "white" }]}>
+          <Animated.View style={[styles.plantsListContainer]}>
+            <Animated.Text style={[styles.smallBoldText, { color: "white" }]}>
               Plants Ready for Watering
-            </Text>
+            </Animated.Text>
             <View style={styles.plantsList}>
               <FlatList
                 keyExtractor={(item, index) => index.toString()}
@@ -134,10 +146,24 @@ const DetailPlantScreen = (props) => {
                 horizontal
               />
               <View style={styles.chartContainer}>
-                <Text style={[styles.smallBoldText, { color: "white" }]}>
+                <Animated.Text
+                  style={[
+                    styles.smallBoldText,
+                    { color: "white", opacity: scrollYChartOpacityInterpolate },
+                  ]}
+                >
                   Weekly WorkLoad
-                </Text>
-                <View style={styles.chart}>
+                </Animated.Text>
+                <Animated.View
+                  style={[
+                    styles.chart,
+                    {
+                      opacity: scrollYChartOpacityInterpolate,
+                      top: scrollYChartTransformInterpolate,
+                      transform: [{ scale: scrollYChartScaleInterpolate }],
+                    },
+                  ]}
+                >
                   <LineChart
                     withDots={true}
                     withInnerLines={false}
@@ -181,10 +207,10 @@ const DetailPlantScreen = (props) => {
                       marginTop: 20,
                     }}
                   />
-                </View>
+                </Animated.View>
               </View>
             </View>
-          </View>
+          </Animated.View>
         </Animated.View>
         <Animated.View
           {...panResponder("detail").panHandlers}
