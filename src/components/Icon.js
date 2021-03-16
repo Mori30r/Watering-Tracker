@@ -1,5 +1,10 @@
 import React from "react";
-import { Entypo, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import {
+  Entypo,
+  Ionicons,
+  MaterialIcons,
+  SimpleLineIcons,
+} from "@expo/vector-icons";
 
 const Icon = ({ size, name, color, pack, onPress, style }) => {
   const packages = {
@@ -28,6 +33,15 @@ const Icon = ({ size, name, color, pack, onPress, style }) => {
         size={size}
         name={name}
         color={color}
+      />
+    ),
+    simpleLine: (
+      <SimpleLineIcons
+        name={name}
+        style={style}
+        size={size}
+        color={color}
+        onPress={onPress}
       />
     ),
   };
