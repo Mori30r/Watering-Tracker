@@ -1,3 +1,3 @@
 export default {
-  accentColor: "#10c5ab",
+    accentColor: "#10c5ab",
 };

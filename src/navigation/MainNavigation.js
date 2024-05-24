@@ -1,7 +1,7 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MyPlantsScreen from "../screens/MyPlantsScreen";
 import AddPlantScreen from "../screens/AddPlantScreen";
 import ProfileScreen from "../screens/ProfileScreen";
@@ -10,48 +10,69 @@ import CameraScreen from "../screens/CameraScreen";
 import DetailPlantScreen from "../screens/DetailPlantScreen";
 
 const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const HomeAndDetail = () => {
-  return (
-    <Stack.Navigator headerMode={false}>
-      <Stack.Screen name={"Plants"} component={MyPlantsScreen} />
-      <Stack.Screen name={"Detail"} component={DetailPlantScreen} />
-    </Stack.Navigator>
-  );
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                options={{ headerShown: false }}
+                name={"Plants"}
+                component={MyPlantsScreen}
+            />
+            <Stack.Screen
+                options={{ headerShown: false }}
+                name={"Detail"}
+                component={DetailPlantScreen}
+            />
+        </Stack.Navigator>
+    );
 };
 
 const HomeTab = () => {
-  return (
-    <Tab.Navigator tabBar={(props) => <TabBar {...props} />}>
-      <Tab.Screen
-        name="Plants"
-        component={HomeAndDetail}
-        initialParams={{ icon: "leaf" }}
-      />
-      <Tab.Screen
-        name="Add"
-        component={AddPlantScreen}
-        initialParams={{ icon: "add-circle-outline" }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        initialParams={{ icon: "md-person-sharp" }}
-      />
-    </Tab.Navigator>
-  );
+    return (
+        <Tab.Navigator tabBar={(props) => <TabBar {...props} />}>
+            <Tab.Screen
+                options={{
+                    headerShown: false,
+                }}
+                name="Main"
+                component={HomeAndDetail}
+                initialParams={{ icon: "leaf" }}
+            />
+            <Tab.Screen
+                options={{ headerShown: false }}
+                name="Add"
+                component={AddPlantScreen}
+                initialParams={{ icon: "add-circle-outline" }}
+            />
+            <Tab.Screen
+                // options={{ headerShown: false }}
+                name="Profile"
+                component={ProfileScreen}
+                initialParams={{ icon: "person" }}
+            />
+        </Tab.Navigator>
+    );
 };
 
 const MainNavigation = () => {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator headerMode={false}>
-        <Stack.Screen name={"Home"} component={HomeTab} />
-        <Stack.Screen name={"Camera"} component={CameraScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+    return (
+        <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen
+                    options={{ headerShown: false }}
+                    name={"Home"}
+                    component={HomeTab}
+                />
+                <Stack.Screen
+                    options={{ headerShown: false }}
+                    name={"Camera"}
+                    component={CameraScreen}
+                />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
 };
 
 export default MainNavigation;
