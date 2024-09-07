@@ -11,19 +11,23 @@ import {
 import Icon from "../components/Icon";
 import Colors from "../constants/Colors";
 import { faker } from "@faker-js/faker";
+import { addPlant } from "../lib/storage";
 
 const { width, height } = Dimensions.get("screen");
 const BOTTOM_HEIGHT = height * 0.78;
 const IMAGE_HEIGHT = height * 0.7;
 
 const AddPlantScreen = (props) => {
+    async function handleAddPlant() {
+        await addPlant("Croton");
+        await props.navigation.navigate("Plants");
+    }
+
     const [clicked, setClicked] = useState(false);
     return (
         <View style={styles.detailPlant}>
             <Image
-                source={{
-                    uri: faker.image.urlLoremFlickr({ category: "animals" }),
-                }}
+                source={{ uri: props.route.params.image }}
                 style={[styles.imageBackground, StyleSheet.absoluteFillObject]}
             />
             <View style={styles.header}>
@@ -79,7 +83,7 @@ const AddPlantScreen = (props) => {
                     </View>
                     <>
                         <TouchableHighlight
-                            onPress={() => props.navigation.navigate("Plants")}
+                            onPress={handleAddPlant}
                             style={styles.addButton}
                         >
                             <Text style={styles.mediumBoldText}>

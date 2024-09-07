@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
     View,
     StatusBar,
@@ -6,11 +6,26 @@ import {
     Dimensions,
     Animated,
 } from "react-native";
-import { PLANTS } from "../data/dummy";
 import PlantsItem from "../components/PlantsItem";
+import { addDummyData, getPlants, resetStorage } from "../lib/storage";
+import { useIsFocused } from "@react-navigation/native";
 
 const MyPlantsScreen = (props) => {
     const animatedValueFlatList = useRef(new Animated.Value(0)).current;
+
+    const [plants, setPlants] = useState([]);
+    const IsFocused = useIsFocused();
+
+    useEffect(() => {
+        async function main() {
+            // await resetStorage();
+            const savedPlants = await getPlants();
+            // await addDummyData();
+            setPlants(savedPlants);
+        }
+        main();
+    }, [IsFocused]);
+
     return (
         <View style={styles.myPlantsScreen}>
             <StatusBar animated hidden />
@@ -29,7 +44,7 @@ const MyPlantsScreen = (props) => {
                     contentContainerStyle={{ paddingBottom: height * 0.03 }}
                     style={styles.plantsList}
                     keyExtractor={(item, index) => index.toString()}
-                    data={PLANTS}
+                    data={plants}
                     renderItem={(plant) => {
                         return (
                             <PlantsItem

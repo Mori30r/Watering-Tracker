@@ -12,7 +12,8 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 
 const PlantsItem = (props) => {
-    const { title, imageURL, nextWateringTime } = props.plant.item;
+    const { name, image, nextWateringTime } = props.plant.item;
+
     const { animatedValue, index } = props;
     const timeToDay = (time) => {
         return time % 24;
@@ -39,12 +40,12 @@ const PlantsItem = (props) => {
                     { opacity: scale, transform: [{ scale }] },
                 ]}
             >
-                <Text style={styles.plantsItemTitle}>{title}</Text>
+                <Text style={styles.plantsItemTitle}>{name}</Text>
                 <View style={styles.plantsItemCard}>
                     <ImageBackground
                         borderRadius={5}
                         style={styles.plantsItemImage}
-                        source={{ uri: imageURL }}
+                        source={image.toString()}
                     >
                         <View style={styles.plantsItemDetailContainer}>
                             <View style={styles.plantsItemTextContainer}>

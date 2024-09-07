@@ -1,5 +1,4 @@
 import * as React from "react";
-import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MyPlantsScreen from "../screens/MyPlantsScreen";
@@ -58,7 +57,7 @@ const HomeTab = () => {
 
 const MainNavigation = () => {
     return (
-        <NavigationContainer>
+        <>
             <Stack.Navigator>
                 <Stack.Screen
                     options={{ headerShown: false }}
@@ -71,7 +70,7 @@ const MainNavigation = () => {
                     component={CameraScreen}
                 />
             </Stack.Navigator>
-        </NavigationContainer>
+        </>
     );
 };
 

@@ -10,12 +10,9 @@ import {
     TouchableWithoutFeedback,
 } from "react-native";
 import Icon from "../components/Icon";
-import { detectPlant } from "../network/detectPlant";
 
 const CameraScreen = (props) => {
-    const [facing, setFacing] = useState("back");
     const [permission, requestPermission] = useCameraPermissions();
-    const [flash, setFlash] = useState(false);
     const [isCameraReady, setIsCameraReady] = useState(false);
     const camera = useRef();
     const [loading, setLoading] = useState(false);
@@ -54,10 +51,9 @@ const CameraScreen = (props) => {
                 setLoading(true);
                 startLoadingAnimation();
             });
-            // const image = await camera.current.takePictureAsync();
-            // console.log(image.uri);
-            // const response = await detectPlant(image.uri);
-            props.navigation.navigate("Add");
+            const image = await camera.current.takePictureAsync();
+            // detect plant
+            props.navigation.navigate("Add", { image: image.uri });
         }
     };
 
@@ -97,16 +93,12 @@ const CameraScreen = (props) => {
         );
     }
 
-    function toggleCameraFacing() {
-        setFacing((current) => (current === "back" ? "front" : "back"));
-    }
-
     return (
         <CameraView
             autoFocus={true}
             ratio={"16:9"}
-            facing={facing}
-            flash={flash ? "on" : "off"}
+            facing={"back"}
+            flash={"auto"}
             ref={camera}
             onCameraReady={() => setIsCameraReady(true)}
             style={styles.camera}
@@ -119,14 +111,6 @@ const CameraScreen = (props) => {
                     name="chevron-back-sharp"
                     color="white"
                     onPress={() => props.navigation.goBack()}
-                />
-                <Icon
-                    style={styles.icons}
-                    onPress={() => setFlash((prevState) => !prevState)}
-                    pack="ionIcons"
-                    size={30}
-                    name={flash ? "flash" : "flash-off"}
-                    color="white"
                 />
             </View>
             <View style={styles.frame}>

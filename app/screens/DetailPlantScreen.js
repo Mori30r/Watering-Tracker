@@ -23,7 +23,9 @@ const IMAGE_HEIGHT = height * 0.7;
 const LIMIT_CHART_ANIMATE = height * 0.25;
 
 const DetailPlantScreen = (props) => {
-    const { title, nextWateringTime, imageURL } = props.route.params.plant;
+    // console.log(props.route.params);
+
+    const { name, nextWateringTime, image } = props.route.params.plant;
     const scrollYChart = useRef(new Animated.Value(0)).current;
     const scrollYDetail = useRef(new Animated.Value(0)).current;
     const panResponder = (element) => {
@@ -116,7 +118,7 @@ const DetailPlantScreen = (props) => {
     return (
         <View style={styles.detailPlant}>
             <Animated.Image
-                source={{ uri: imageURL }}
+                source={image}
                 style={[
                     styles.imageBackground,
                     StyleSheet.absoluteFillObject,
@@ -133,7 +135,7 @@ const DetailPlantScreen = (props) => {
                     name="chevron-back-sharp"
                     onPress={() => props.navigation.goBack()}
                 />
-                <Text style={styles.title}>{title}</Text>
+                <Text style={styles.name}>{name}</Text>
             </View>
             <View style={styles.bottomDetail}>
                 <Animated.View
@@ -154,7 +156,7 @@ const DetailPlantScreen = (props) => {
                                 keyExtractor={(item, index) => index.toString()}
                                 data={PLANTS}
                                 renderItem={(item) => (
-                                    <PlantsImage uri={item.item.imageURL} />
+                                    <PlantsImage image={item.item.image} />
                                 )}
                                 horizontal
                             />
@@ -360,7 +362,7 @@ const styles = StyleSheet.create({
         padding: 10,
         width: width / 1.5,
     },
-    title: {
+    name: {
         fontWeight: "bold",
         color: "white",
         fontSize: 45,
