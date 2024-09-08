@@ -1,9 +1,15 @@
 import React from "react";
 
-import { Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, View } from "react-native";
 
 const ProfileScreen = () => {
-  return <Text>Profile Screen</Text>;
+    return (
+        <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+            <Text>Still on Development!</Text>
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({});

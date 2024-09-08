@@ -22,6 +22,7 @@ export const PLANTS = {
         light: "Full sun",
         wateringInterval: 3,
         nextWateringTime: 0,
+        fertilizing: "4-6 weeks",
     },
     Croton: {
         name: "Croton",
@@ -29,9 +30,10 @@ export const PLANTS = {
         description:
             "Crotons are vibrant, tropical plants known for their striking multicolored leaves, which can range from green, yellow, orange, red, to even purple. They are popular for indoor and outdoor gardening because of their bold, decorative appearance. Crotons can grow up to 3-6 feet in height, depending on the variety and conditions.",
         temperature: "15 - 29°C",
-        light: "indirect light",
+        light: "Indirect",
         wateringInterval: 7,
         nextWateringTime: 0,
+        fertilizing: "4-6 weeks",
     },
     Ferns: {
         name: "Ferns",
@@ -39,9 +41,10 @@ export const PLANTS = {
         description:
             "Ferns are non-flowering plants that reproduce via spores. They come in a variety of shapes and sizes, from small, delicate species like the Maidenhair Fern to large, hardy types like the Boston Fern. Ferns are valued for their ability to purify air and add a natural, tropical feel to any space.",
         temperature: "15 - 24°C",
-        light: "indirect light",
+        light: "Indirect",
         wateringInterval: 4,
         nextWateringTime: 0,
+        fertilizing: "4-6 weeks",
     },
     Hydrangeas: {
         name: "Hydrangeas",
@@ -52,6 +55,7 @@ export const PLANTS = {
         light: "Morning Sun",
         wateringInterval: 3,
         nextWateringTime: 0,
+        fertilizing: "in spring",
     },
     Iris: {
         name: "Iris",
@@ -62,6 +66,7 @@ export const PLANTS = {
         light: "Full Sun",
         wateringInterval: 7,
         nextWateringTime: 0,
+        fertilizing: "in spring",
     },
     Judas: {
         name: "Judas",
@@ -72,6 +77,7 @@ export const PLANTS = {
         light: "Full Sun",
         wateringInterval: 7,
         nextWateringTime: 0,
+        fertilizing: "in spring",
     },
     Orchid: {
         name: "Orchid",
@@ -82,6 +88,7 @@ export const PLANTS = {
         light: "Full Sun",
         wateringInterval: 12,
         nextWateringTime: 0,
+        fertilizing: "monthly",
     },
     Radiator: {
         name: "Radiator",
@@ -89,9 +96,10 @@ export const PLANTS = {
         description:
             "Peperomias come in a variety of leaf shapes, sizes, and colors. Some species have thick, succulent-like leaves, while others have delicate, heart-shaped or textured foliage. Common varieties include Peperomia obtusifolia (with rounded, glossy leaves), Peperomia caperata (with rippled leaves), and Peperomia argyreia (Watermelon Peperomia, known for its striking silver stripes).",
         temperature: "18 - 27°C",
-        light: "Indirect Light",
+        light: "Indirect",
         wateringInterval: 8,
         nextWateringTime: 0,
+        fertilizing: "monthly",
     },
     Rose: {
         name: "Rose",
@@ -102,6 +110,7 @@ export const PLANTS = {
         light: "Full Sun",
         wateringInterval: 7,
         nextWateringTime: 0,
+        fertilizing: "4-6 weeks",
     },
     Rubber: {
         name: "Rubber",
@@ -109,9 +118,10 @@ export const PLANTS = {
         description:
             "The Rubber Plant is an evergreen shrub or small tree that can grow up to 100 feet (30 meters) in its native habitat but usually remains much smaller indoors. It features large, leathery leaves that are often dark green, though some varieties have variegated or reddish leaves.",
         temperature: "18 - 27°C",
-        light: "Indirect Light",
+        light: "Indirect",
         wateringInterval: 10,
         nextWateringTime: 0,
+        fertilizing: "4-6 weeks",
     },
     Sansevieria: {
         name: "Sansevieria",
@@ -119,9 +129,10 @@ export const PLANTS = {
         description:
             "Sansevieria features long, upright leaves that can grow up to 3-4 feet (90-120 cm) tall, depending on the variety. The leaves are typically green with distinctive banded patterns or stripes. The plant has a sturdy, architectural appearance and is known for its air-purifying qualities.",
         temperature: "15 - 27°C",
-        light: "Indirect Light",
+        light: "Indirect",
         wateringInterval: 28,
         nextWateringTime: 0,
+        fertilizing: "monthly",
     },
     Spilanthes: {
         name: "Spilanthes",
@@ -132,6 +143,7 @@ export const PLANTS = {
         light: "Full Sun",
         wateringInterval: 3,
         nextWateringTime: 0,
+        fertilizing: "4-6 weeks",
     },
     Sunflower: {
         name: "Sunflower",
@@ -142,6 +154,7 @@ export const PLANTS = {
         light: "Full Sun",
         wateringInterval: 1,
         nextWateringTime: 0,
+        fertilizing: "6 inches",
     },
 };
 

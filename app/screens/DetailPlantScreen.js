@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import {
     View,
@@ -8,13 +8,17 @@ import {
     PanResponder,
     Text,
     FlatList,
-    TouchableWithoutFeedback,
+    Alert,
+    TouchableOpacity,
 } from "react-native";
 import Icon from "../components/Icon";
 import Colors from "../constants/Colors";
 import { PLANTS } from "../data/dummy";
 import PlantsImage from "../components/PlantsImage";
 import { LineChart } from "react-native-chart-kit";
+import { getPlant, getPlants, getWatered } from "../lib/storage";
+import { timeDifference } from "../helpers/date";
+import { scheduleNotification } from "../lib/notifications";
 
 const { width, height } = Dimensions.get("screen");
 const CHART_ANIMATE_TO = -height;
@@ -23,9 +27,18 @@ const IMAGE_HEIGHT = height * 0.7;
 const LIMIT_CHART_ANIMATE = height * 0.25;
 
 const DetailPlantScreen = (props) => {
-    // console.log(props.route.params);
-
-    const { name, nextWateringTime, image } = props.route.params.plant;
+    const [plant, setPlant] = useState(props.route.params.plant);
+    const [otherPlants, setOtherPlants] = useState([]);
+    const {
+        name,
+        nextWateringTime,
+        image,
+        wateringInterval,
+        description,
+        temperature,
+        light,
+        fertilizing,
+    } = plant;
     const scrollYChart = useRef(new Animated.Value(0)).current;
     const scrollYDetail = useRef(new Animated.Value(0)).current;
     const panResponder = (element) => {
@@ -115,6 +128,40 @@ const DetailPlantScreen = (props) => {
     });
 
     const [clicked, setClicked] = useState(false);
+
+    const tillNextWatering = timeDifference(
+        new Date(nextWateringTime),
+        new Date()
+    );
+
+    async function handleWaterPlant() {
+        setClicked(true);
+        await getWatered(plant);
+        await scheduleNotification(plant);
+        const updatedPlant = await getPlant(plant.id);
+        setPlant(updatedPlant);
+        Alert.alert(
+            `Notification Set Successfully`,
+            `You Will Get Notification for Watering Your ${
+                plant.name
+            } in ${timeDifference(
+                new Date(plant.nextWateringTime),
+                new Date()
+            )}`
+        );
+    }
+
+    useEffect(() => {
+        async function getOtherPlants() {
+            const allPlants = await getPlants();
+            const filteredPlants = allPlants.filter((thisPlant) => {
+                return thisPlant.id != plant.id;
+            });
+            setOtherPlants(filteredPlants);
+        }
+        getOtherPlants();
+    }, []);
+
     return (
         <View style={styles.detailPlant}>
             <Animated.Image
@@ -153,10 +200,13 @@ const DetailPlantScreen = (props) => {
                         </Animated.Text>
                         <View style={styles.plantsList}>
                             <FlatList
-                                keyExtractor={(item, index) => index.toString()}
-                                data={PLANTS}
+                                keyExtractor={(_, index) => index.toString()}
+                                data={otherPlants}
                                 renderItem={(item) => (
-                                    <PlantsImage image={item.item.image} />
+                                    <PlantsImage
+                                        plant={item.item}
+                                        navigation={props.navigation}
+                                    />
                                 )}
                                 horizontal
                             />
@@ -260,26 +310,50 @@ const DetailPlantScreen = (props) => {
                                 { bottom: scrollYDetailHeadLeftInterpolate },
                             ]}
                         >
-                            <Text style={styles.text}>Next Watering in</Text>
-                            <Text style={styles.bigBoldText}>
-                                {nextWateringTime % 24} days
-                            </Text>
+                            {nextWateringTime == 0 ? (
+                                <>
+                                    <Text style={styles.text}>New Plant</Text>
+                                    <Text style={styles.bigBoldText}>
+                                        Water it!
+                                    </Text>
+                                </>
+                            ) : (
+                                <>
+                                    <Text style={styles.text}>
+                                        Next Watering in
+                                    </Text>
+                                    <Text style={styles.bigBoldText}>
+                                        {tillNextWatering}
+                                    </Text>
+                                </>
+                            )}
                             <Text style={styles.lightText}>
-                                watering every 7 days
+                                watering every {wateringInterval} days
                             </Text>
                         </Animated.View>
                         <View style={styles.bigDetailHeadRight}>
-                            <View
+                            <TouchableOpacity
+                                onPress={handleWaterPlant}
+                                disabled={
+                                    new Date(plant.nextWateringTime) -
+                                        new Date() >
+                                    0
+                                }
                                 style={styles.bigDetailHeadRightIconContainer}
                             >
                                 <Icon
                                     pack="ionIcons"
                                     color="white"
                                     size={40}
-                                    name={clicked ? "checkmark" : "water"}
-                                    onPress={() => setClicked(true)}
+                                    name={
+                                        new Date(plant.nextWateringTime) -
+                                            new Date() >
+                                        0
+                                            ? "checkmark"
+                                            : "water"
+                                    }
                                 />
-                            </View>
+                            </TouchableOpacity>
                         </View>
                     </View>
                     <Animated.View
@@ -303,8 +377,7 @@ const DetailPlantScreen = (props) => {
                             Watering Info
                         </Text>
                         <Text style={styles.normalText}>
-                            Soooo This Should be a dummy text in development but
-                            i'm too lazy to search for dummy text.
+                            {description.substring(0, 250) + "..."}
                         </Text>
                     </Animated.View>
                     <Animated.View
@@ -321,9 +394,9 @@ const DetailPlantScreen = (props) => {
                             Plants Info
                         </Animated.Text>
                         <View style={styles.plantsInfoLabels}>
-                            <Text style={styles.lightText}>Info 1</Text>
-                            <Text style={styles.lightText}>Info 2</Text>
-                            <Text style={styles.lightText}>Info 3</Text>
+                            <Text style={styles.lightText}>Temperature</Text>
+                            <Text style={styles.lightText}>Light</Text>
+                            <Text style={styles.lightText}>Fertilizing</Text>
                         </View>
                         <View style={styles.plantsInfoDetails}>
                             <View
@@ -332,10 +405,12 @@ const DetailPlantScreen = (props) => {
                                     styles.plantsInfoDetailItemsLeft,
                                 ]}
                             >
-                                <Text style={styles.smallBoldText}>70-80</Text>
+                                <Text style={styles.infoText}>
+                                    {temperature}
+                                </Text>
                             </View>
                             <View style={styles.plantsInfoDetailItems}>
-                                <Text style={styles.smallBoldText}>20-32</Text>
+                                <Text style={styles.infoText}>{light}</Text>
                             </View>
                             <View
                                 style={[
@@ -343,7 +418,9 @@ const DetailPlantScreen = (props) => {
                                     styles.plantsInfoDetailItemsRight,
                                 ]}
                             >
-                                <Text style={styles.smallBoldText}>10</Text>
+                                <Text style={styles.infoText}>
+                                    {fertilizing}
+                                </Text>
                             </View>
                         </View>
                     </Animated.View>
@@ -365,7 +442,7 @@ const styles = StyleSheet.create({
     name: {
         fontWeight: "bold",
         color: "white",
-        fontSize: 45,
+        fontSize: 40,
     },
     imageBackground: {
         height: IMAGE_HEIGHT,
@@ -417,6 +494,10 @@ const styles = StyleSheet.create({
     smallBoldText: {
         fontWeight: "bold",
         fontSize: 17,
+    },
+    infoText: {
+        fontWeight: "bold",
+        fontSize: 14,
     },
     normalText: {
         fontSize: 14,

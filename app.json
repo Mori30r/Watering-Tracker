@@ -1,6 +1,7 @@
 {
     "expo": {
         "name": "watering-tracker-ai",
+        "scheme": "watering-tracker-ai",
         "slug": "watering-tracker-ai",
         "version": "1.0.0",
         "orientation": "portrait",
@@ -12,13 +13,24 @@
             "backgroundColor": "#ffffff"
         },
         "ios": {
-            "supportsTablet": true
+            "supportsTablet": true,
+            "infoPlist": {
+                "UIBackgroundModes": ["fetch", "remote-notification"],
+                "UIBackgroundRefreshStatus": "always",
+                "NSAppTransportSecurity": {
+                    "NSAllowsArbitraryLoads": true
+                },
+                "NSLocationWhenInUseUsageDescription": "This app needs access to your location for notifications."
+            },
+            "bundleIdentifier": "com.waterplantreminder",
+            "buildNumber": "1.0.0"
         },
         "android": {
             "adaptiveIcon": {
                 "foregroundImage": "./assets/adaptive-icon.png",
                 "backgroundColor": "#ffffff"
-            }
+            },
+            "permissions": ["NOTIFICATIONS"]
         },
         "web": {
             "favicon": "./assets/favicon.png"
@@ -27,9 +39,7 @@
             [
                 "expo-camera",
                 {
-                    "cameraPermission": "Allow Watering Tracker to access your camera",
-                    "microphonePermission": "Allow Watering Tracker to access your microphone",
-                    "recordAudioAndroid": true
+                    "cameraPermission": "Allow Watering Tracker to access your camera"
                 }
             ]
         ]

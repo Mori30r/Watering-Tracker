@@ -52,8 +52,11 @@ const CameraScreen = (props) => {
                 startLoadingAnimation();
             });
             const image = await camera.current.takePictureAsync();
-            // detect plant
-            props.navigation.navigate("Add", { image: image.uri });
+            // detect plant and navigate to add screen with plant name
+            props.navigation.navigate("Add", {
+                plantName: "Sansevieria",
+                uri: image.uri,
+            });
         }
     };
 

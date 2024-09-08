@@ -1,10 +1,25 @@
 import React from "react";
-import { Image, View, StyleSheet, Dimensions } from "react-native";
+import {
+    Image,
+    View,
+    StyleSheet,
+    Dimensions,
+    TouchableHighlight,
+    TouchableOpacity,
+} from "react-native";
 
-const PlantsImage = ({ image }) => {
+const PlantsImage = ({ plant, navigation }) => {
     return (
         <View style={styles.imageContainer}>
-            <Image blurRadius={1} style={styles.image} source={image} />
+            <TouchableOpacity
+                onPress={() => navigation.navigate("Detail", { plant })}
+            >
+                <Image
+                    blurRadius={1}
+                    style={styles.image}
+                    source={plant.image}
+                />
+            </TouchableOpacity>
         </View>
     );
 };

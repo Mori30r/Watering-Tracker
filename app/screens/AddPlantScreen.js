@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
     View,
@@ -10,89 +10,121 @@ import {
 } from "react-native";
 import Icon from "../components/Icon";
 import Colors from "../constants/Colors";
-import { faker } from "@faker-js/faker";
 import { addPlant } from "../lib/storage";
+import { PLANTS } from "../data/dummy";
 
-const { width, height } = Dimensions.get("screen");
+const { height } = Dimensions.get("screen");
 const BOTTOM_HEIGHT = height * 0.78;
-const IMAGE_HEIGHT = height * 0.7;
 
 const AddPlantScreen = (props) => {
     async function handleAddPlant() {
-        await addPlant("Croton");
+        await addPlant(plant.name);
         await props.navigation.navigate("Plants");
     }
 
-    const [clicked, setClicked] = useState(false);
+    const [plant, setPlant] = useState(null);
+
+    useEffect(() => {
+        async function getDetectedPlant() {
+            const detectedPlant = PLANTS[props.route.params.plantName];
+            setPlant(detectedPlant);
+        }
+        getDetectedPlant();
+    }, []);
+
     return (
         <View style={styles.detailPlant}>
-            <Image
-                source={{ uri: props.route.params.image }}
-                style={[styles.imageBackground, StyleSheet.absoluteFillObject]}
-            />
-            <View style={styles.header}>
-                <Icon
-                    pack="ionIcons"
-                    color="white"
-                    size={30}
-                    name="chevron-back-sharp"
-                    onPress={() => props.navigation.goBack()}
-                />
-            </View>
-            <View style={styles.bottomDetail}>
-                <View style={styles.bottomDetailWatering}>
-                    <View style={styles.bigDetailHead}>
-                        <Text style={styles.bigBoldText}>Title</Text>
-                        <Image
-                            source={{
-                                uri: faker.image.urlLoremFlickr({
-                                    category: "plant",
-                                }),
-                            }}
-                            style={styles.imagePlant}
+            {plant ? (
+                <>
+                    <Image
+                        source={{ uri: props.route.params.uri }}
+                        style={[
+                            styles.imageBackground,
+                            StyleSheet.absoluteFillObject,
+                        ]}
+                    />
+                    <View style={styles.header}>
+                        <Icon
+                            pack="ionIcons"
+                            color="white"
+                            size={30}
+                            name="chevron-back-sharp"
+                            onPress={() => props.navigation.goBack()}
                         />
                     </View>
-                    <View style={styles.plantsInfoContainer}>
-                        <Text style={styles.smallBoldText}>Plants Info</Text>
-                        <View style={styles.plantsInfoLabels}>
-                            <Text style={styles.lightText}>Info 1</Text>
-                            <Text style={styles.lightText}>Info 2</Text>
-                            <Text style={styles.lightText}>Info 3</Text>
-                        </View>
-                        <View style={styles.plantsInfoDetails}>
-                            <View
-                                style={[
-                                    styles.plantsInfoDetailItems,
-                                    styles.plantsInfoDetailItemsLeft,
-                                ]}
-                            >
-                                <Text style={styles.smallBoldText}>70-80</Text>
+                    <View style={styles.bottomDetail}>
+                        <View style={styles.bottomDetailWatering}>
+                            <View style={styles.bigDetailHead}>
+                                <Text style={styles.bigBoldText}>
+                                    {plant.name}
+                                </Text>
+                                <Image
+                                    source={plant.image}
+                                    style={styles.imagePlant}
+                                />
                             </View>
-                            <View style={styles.plantsInfoDetailItems}>
-                                <Text style={styles.smallBoldText}>20-32</Text>
+                            <View style={styles.plantsInfoContainer}>
+                                <Text
+                                    style={[
+                                        styles.mediumBoldText,
+                                        { color: "black" },
+                                    ]}
+                                >
+                                    Plants Info
+                                </Text>
+                                <View style={styles.plantsInfoLabels}>
+                                    <Text style={styles.lightText}>
+                                        Temperature
+                                    </Text>
+                                    <Text style={styles.lightText}>Light</Text>
+                                    <Text style={styles.lightText}>
+                                        Fertilizing
+                                    </Text>
+                                </View>
+                                <View style={styles.plantsInfoDetails}>
+                                    <View
+                                        style={[
+                                            styles.plantsInfoDetailItems,
+                                            styles.plantsInfoDetailItemsLeft,
+                                        ]}
+                                    >
+                                        <Text style={styles.smallBoldText}>
+                                            {plant.temperature}
+                                        </Text>
+                                    </View>
+                                    <View style={styles.plantsInfoDetailItems}>
+                                        <Text style={styles.smallBoldText}>
+                                            {plant.light}
+                                        </Text>
+                                    </View>
+                                    <View
+                                        style={[
+                                            styles.plantsInfoDetailItems,
+                                            styles.plantsInfoDetailItemsRight,
+                                        ]}
+                                    >
+                                        <Text style={styles.smallBoldText}>
+                                            {plant.fertilizing}
+                                        </Text>
+                                    </View>
+                                </View>
                             </View>
-                            <View
-                                style={[
-                                    styles.plantsInfoDetailItems,
-                                    styles.plantsInfoDetailItemsRight,
-                                ]}
-                            >
-                                <Text style={styles.smallBoldText}>10</Text>
-                            </View>
+                            <>
+                                <TouchableHighlight
+                                    onPress={handleAddPlant}
+                                    style={styles.addButton}
+                                >
+                                    <Text style={styles.mediumBoldText}>
+                                        + Add To My Plants
+                                    </Text>
+                                </TouchableHighlight>
+                            </>
                         </View>
                     </View>
-                    <>
-                        <TouchableHighlight
-                            onPress={handleAddPlant}
-                            style={styles.addButton}
-                        >
-                            <Text style={styles.mediumBoldText}>
-                                + Add To My Plants
-                            </Text>
-                        </TouchableHighlight>
-                    </>
-                </View>
-            </View>
+                </>
+            ) : (
+                <Text>Loading</Text>
+            )}
         </View>
     );
 };
@@ -143,7 +175,7 @@ const styles = StyleSheet.create({
     },
     smallBoldText: {
         fontWeight: "bold",
-        fontSize: 17,
+        fontSize: 14,
     },
     normalText: {
         fontSize: 14,

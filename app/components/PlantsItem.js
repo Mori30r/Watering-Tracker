@@ -10,14 +10,15 @@ import {
     Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { timeDifference } from "../helpers/date";
 
 const PlantsItem = (props) => {
     const { name, image, nextWateringTime } = props.plant.item;
-
+    const formattedNextWateringTime = timeDifference(
+        new Date(nextWateringTime),
+        new Date()
+    );
     const { animatedValue, index } = props;
-    const timeToDay = (time) => {
-        return time % 24;
-    };
     const inputRange = [
         -1,
         0,
@@ -49,16 +50,41 @@ const PlantsItem = (props) => {
                     >
                         <View style={styles.plantsItemDetailContainer}>
                             <View style={styles.plantsItemTextContainer}>
-                                <Text
-                                    style={styles.plantsItemTextContainerDetail}
-                                >
-                                    Next Watering Time in
-                                </Text>
-                                <Text
-                                    style={styles.plantsItemTextContainerTime}
-                                >
-                                    {timeToDay(nextWateringTime)} day
-                                </Text>
+                                {nextWateringTime === 0 ? (
+                                    <>
+                                        <Text
+                                            style={[
+                                                styles.plantsItemTextContainerDetail,
+                                            ]}
+                                        >
+                                            New Plant
+                                        </Text>
+                                        <Text
+                                            style={
+                                                styles.plantsItemTextContainerTime
+                                            }
+                                        >
+                                            Water it for the First Time!
+                                        </Text>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Text
+                                            style={
+                                                styles.plantsItemTextContainerDetail
+                                            }
+                                        >
+                                            Next Watering Time in
+                                        </Text>
+                                        <Text
+                                            style={
+                                                styles.plantsItemTextContainerTime
+                                            }
+                                        >
+                                            {formattedNextWateringTime}
+                                        </Text>
+                                    </>
+                                )}
                             </View>
                             <Ionicons
                                 name="water-outline"
