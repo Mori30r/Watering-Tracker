@@ -24,7 +24,7 @@ export const PLANTS = {
         nextWateringTime: 0,
         fertilizing: "4-6 weeks",
     },
-    Croton: {
+    "Crotons Plant": {
         name: "Croton",
         image: Croton,
         description:
@@ -35,7 +35,7 @@ export const PLANTS = {
         nextWateringTime: 0,
         fertilizing: "4-6 weeks",
     },
-    Ferns: {
+    "Ferns plant": {
         name: "Ferns",
         image: Ferns,
         description:
@@ -46,7 +46,7 @@ export const PLANTS = {
         nextWateringTime: 0,
         fertilizing: "4-6 weeks",
     },
-    Hydrangeas: {
+    Hydrangea: {
         name: "Hydrangeas",
         image: Hydrangeas,
         description:
@@ -68,7 +68,7 @@ export const PLANTS = {
         nextWateringTime: 0,
         fertilizing: "in spring",
     },
-    Judas: {
+    "Judas-tree": {
         name: "Judas",
         image: Judas,
         description:
@@ -90,7 +90,7 @@ export const PLANTS = {
         nextWateringTime: 0,
         fertilizing: "monthly",
     },
-    Radiator: {
+    "Radiator plant": {
         name: "Radiator",
         image: Radiator,
         description:
@@ -112,7 +112,7 @@ export const PLANTS = {
         nextWateringTime: 0,
         fertilizing: "4-6 weeks",
     },
-    Rubber: {
+    "Rubber Plant": {
         name: "Rubber",
         image: Rubber,
         description:
@@ -123,7 +123,7 @@ export const PLANTS = {
         nextWateringTime: 0,
         fertilizing: "4-6 weeks",
     },
-    Sansevieria: {
+    "Sansevieria plant": {
         name: "Sansevieria",
         image: Sansevieria,
         description:
@@ -145,7 +145,7 @@ export const PLANTS = {
         nextWateringTime: 0,
         fertilizing: "4-6 weeks",
     },
-    Sunflower: {
+    sunflower: {
         name: "Sunflower",
         image: Sunflower,
         description:

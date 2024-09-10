@@ -8,8 +8,10 @@ import {
     Dimensions,
     Animated,
     TouchableWithoutFeedback,
+    Button,
 } from "react-native";
 import Icon from "../components/Icon";
+import { detectPlant } from "../network/detectPlant";
 
 const CameraScreen = (props) => {
     const [permission, requestPermission] = useCameraPermissions();
@@ -51,10 +53,12 @@ const CameraScreen = (props) => {
                 setLoading(true);
                 startLoadingAnimation();
             });
-            const image = await camera.current.takePictureAsync();
-            // detect plant and navigate to add screen with plant name
+            const image = await camera.current.takePictureAsync({
+                base64: true,
+            });
+            const plantName = await detectPlant(image.uri);
             props.navigation.navigate("Add", {
-                plantName: "Sansevieria",
+                plantName,
                 uri: image.uri,
             });
         }
@@ -73,7 +77,7 @@ const CameraScreen = (props) => {
     const takeImageLoadingRotateInterpolate =
         loadingAnimationRotateValue.interpolate({
             inputRange: [0, 1],
-            outputRange: ["0deg", "360deg"],
+            outputRange: ["0deg", "1080deg"],
         });
     const takeImageLoadingOpacityAndScaleInterpolate =
         loadingAnimationOpacityAndScaleValue.interpolate({
